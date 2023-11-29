@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:islami/hadeth_details.dart';
+import 'package:islami/home.dart';
+import 'package:islami/myThemeData.dart';
+import 'package:islami/providers/my_provider.dart';
+import 'package:islami/splash/splah_screen.dart';
+import 'package:islami/suraDetailes.dart';
+import 'package:provider/provider.dart';
+
+void main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+  runApp(ChangeNotifierProvider(
+      create: (context) => MyProvider()..init(), child: const MyApp()));
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var pro = Provider.of<MyProvider>(context);
+    return MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: Locale(pro.languageCode),
+      debugShowCheckedModeBanner: false,
+      initialRoute: SplashScreen.routeName,
+      routes: {
+        HomeScreen.routeName: (context) => HomeScreen(),
+        SuraDetails.routeName: (context) => SuraDetails(),
+        SplashScreen.routeName: (context) => SplashScreen(),
+        HadethDetails.routeName: (context) => HadethDetails(),
+      },
+      themeMode: pro.modeApp,
+      theme: MyThemeData.lightTheme,
+      darkTheme: MyThemeData.darkTheme,
+    );
+  }
+}
